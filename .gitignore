@@ -1,0 +1,7 @@
+env/
+node_modules/
+bun.lockb
+
+cred.json
+.env
+.env.local
