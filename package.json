@@ -1,5 +1,9 @@
 {
-  "dependencies": { "convex": "^1.15.0", "google-spreadsheet": "^4.1.4", "googleapis": "^144.0.0" },
+  "dependencies": {
+    "convex": "^1.15.0",
+    "google-spreadsheet": "^4.1.4",
+    "googleapis": "^144.0.0"
+  },
   "devDependencies": {
     "@types/node": "^22.5.4"
   }
