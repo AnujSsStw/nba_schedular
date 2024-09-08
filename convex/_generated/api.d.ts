@@ -16,6 +16,7 @@ import type {
 import type * as index from "../index.js";
 import type * as map from "../map.js";
 import type * as update_sheets from "../update_sheets.js";
+import type * as scheduler from "../scheduler.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -29,6 +30,7 @@ declare const fullApi: ApiFromModules<{
   index: typeof index;
   map: typeof map;
   update_sheets: typeof update_sheets;
+  scheduler: typeof scheduler;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

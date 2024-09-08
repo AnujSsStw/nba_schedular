@@ -1,3 +1,4 @@
+"use node";
 import {
   GoogleSpreadsheet,
   GoogleSpreadsheetCell,
@@ -33,65 +34,11 @@ export async function update_sheet(team: string) {
   const rebounds = doc.sheetsByTitle["Rebounds"];
   const t = doc.sheetsByTitle[nba_teams[team]];
 
-  let assist_number: number = 0;
-  try {
-    await assists.loadCells("B2:B31");
-    await assists.loadCells("M2:M31");
-    for (let i = 2; i < 32; i++) {
-      (nba_teams[team] as string).includes(
-        assists.getCellByA1(`B${i}`).value as string
-      ) && (assist_number = assists.getCellByA1(`M${i}`).value as number);
-    }
+  let assist_number = await get_number(assists, team);
 
-    if (assist_number * 100 < 0) {
-      assist_number = 1 + Math.abs(assist_number);
-    } else {
-      assist_number = assist_number * 100;
-    }
-    console.log("assist", assist_number);
-  } catch (error) {
-    console.error("Error loading cells at Assists");
-  }
+  let points_number = await get_number(points, team);
 
-  let points_number: number = 0;
-  try {
-    await points.loadCells("B2:B31");
-    await points.loadCells("M2:M31");
-    for (let i = 2; i < 32; i++) {
-      (nba_teams[team] as string).includes(
-        points.getCellByA1(`B${i}`).value as string
-      ) && (points_number = points.getCellByA1(`M${i}`).value as number);
-    }
-
-    if (points_number * 100 < 0) {
-      points_number = 1 + Math.abs(points_number);
-    } else {
-      points_number = points_number * 100;
-    }
-    console.log("points", points_number);
-  } catch (error) {
-    console.error("Error loading cells at Points");
-  }
-
-  let rebounds_number: number = 0;
-  try {
-    await rebounds.loadCells("B2:B31");
-    await rebounds.loadCells("M2:M31");
-    for (let i = 2; i < 32; i++) {
-      (nba_teams[team] as string).includes(
-        rebounds.getCellByA1(`B${i}`).value as string
-      ) && (rebounds_number = rebounds.getCellByA1(`M${i}`).value as number);
-    }
-
-    if (rebounds_number * 100 < 0) {
-      rebounds_number = 1 + Math.abs(rebounds_number);
-    } else {
-      rebounds_number = rebounds_number * 100;
-    }
-    console.log("Rebound", rebounds_number);
-  } catch (error) {
-    console.error("Error loading cells at Rebounds");
-  }
+  let rebounds_number = await get_number(rebounds, team);
 
   const team_arr: Team = {
     Points: [],
@@ -148,7 +95,7 @@ export async function update_sheet(team: string) {
   }
 }
 
-async function me(
+async function get_number(
   sheet: GoogleSpreadsheetWorksheet,
   team: string
 ): Promise<number> {
@@ -169,9 +116,9 @@ async function me(
     } else {
       res = res * 100;
     }
-    console.log("Rebound", res);
+    console.log(sheet.title, res);
   } catch (error) {
-    console.error("Error loading cells at Rebounds");
+    console.error("Error loading cells at ", sheet.title);
   }
   return res;
 }
