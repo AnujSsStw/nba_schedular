@@ -9,8 +9,8 @@ export const send = internalAction({
     team2: v.string(),
   },
   handler: async (ctx, { team1, team2 }) => {
-    await update_sheet(team1);
-    await update_sheet(team2);
+    await update_sheet(team1, team2);
+    await update_sheet(team2, team1);
     return "Done";
   },
 });
